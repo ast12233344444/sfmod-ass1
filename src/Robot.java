@@ -5,24 +5,28 @@ import java.util.ListIterator;
 
 public class Robot {
     private static int count = 1;
+    private static int capacity;
     final private String id;
     private int floor;
     private int room;
+    private int usedCapacity;
     final private MailRoom mailroom;
-    final private List<Letter> letters = new ArrayList<>();
+    final private List<Deliverable> deliverables = new ArrayList<>();
 
     public String toString() {
         return "Id: " + id + " Floor: " + floor + ", Room: " + room + ", #items: " + numItems() + ", Load: " + 0 ;
     }
 
-    Robot(MailRoom mailroom) {
+    Robot(MailRoom mailroom, int given_capacity) {
         this.id = "R" + count++;
         this.mailroom = mailroom;
+        capacity = given_capacity;
+        usedCapacity = 0;
     }
 
     int getFloor() { return floor; }
     int getRoom() { return room; }
-    boolean isEmpty() { return letters.isEmpty(); }
+    boolean isEmpty() { return deliverables.isEmpty(); }
 
     public void place(int floor, int room) {
         Building building = Building.getBuilding();
@@ -52,17 +56,18 @@ public class Robot {
     }
 
     void transfer(Robot robot) {  // Transfers every item assuming receiving robot has capacity
-        ListIterator<Letter> iter = robot.letters.listIterator();
+        ListIterator<Deliverable> iter = robot.deliverables.listIterator();
         while(iter.hasNext()) {
-            Letter letter = iter.next();
-            this.add(letter); //Hand it over
+            Deliverable letter = iter.next();
+            this.add(letter);
+            usedCapacity -= letter.myWeight();//Hand it over
             iter.remove();
         }
     }
 
     void tick() {
             Building building = Building.getBuilding();
-            if (letters.isEmpty()) {
+            if (deliverables.isEmpty()) {
                 // Return to MailRoom
                 if (room == building.NUMROOMS + 1) { // in right end column
                     move(Building.Direction.DOWN);  //move towards mailroom
@@ -71,12 +76,14 @@ public class Robot {
                 }
             } else {
                 // Items to deliver
-                if (floor == letters.getFirst().myFloor()) {
+                if (floor == deliverables.getFirst().myFloor()) {
                     // On the right floor
-                    if (room == letters.getFirst().myRoom()) { //then deliver all relevant items to that room
+                    if (room == deliverables.getFirst().myRoom()) { //then deliver all relevant items to that room
                         do {
-                            Simulation.deliver(letters.removeFirst());
-                        } while (!letters.isEmpty() && room == letters.getFirst().myRoom());
+                            Deliverable item_to_deliver = deliverables.removeFirst();
+                            usedCapacity -= item_to_deliver.myWeight();
+                            Simulation.deliver(item_to_deliver);
+                        } while (!deliverables.isEmpty() && room == deliverables.getFirst().myRoom());
                     } else {
                         move(Building.Direction.RIGHT); // move towards next delivery
                     }
@@ -90,16 +97,21 @@ public class Robot {
         return id;
     }
 
+    public int getCapacity(){ return capacity;}
+
+    public int getUsedCapacity(){ return usedCapacity;}
+
     public int numItems () {
-        return letters.size();
+        return deliverables.size();
     }
 
-    public void add(Letter item) {
-        letters.add(item);
+    public void add(Deliverable item) {
+        usedCapacity += item.myWeight();
+        deliverables.add(item);
     }
 
     void sort() {
-        Collections.sort(letters);
+        Collections.sort(deliverables);
     }
 
 }

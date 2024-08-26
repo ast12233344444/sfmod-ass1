@@ -4,7 +4,7 @@ import static java.lang.String.format;
 
 public class MailRoom {
     public enum Mode {CYCLING, FLOORING}
-    List<Letter>[] waitingForDelivery;
+    List<Deliverable>[] waitingForDelivery;
     private final int numRobots;
 
     Queue<Robot> idleRobots;
@@ -35,7 +35,7 @@ public class MailRoom {
         return floor;
     }
 
-    MailRoom(int numFloors, int numRobots) {
+    MailRoom(int numFloors, int numRobots, int maxRobotCapacity) {
         waitingForDelivery = new List[numFloors];
         for (int i = 0; i < numFloors; i++) {
             waitingForDelivery[i] = new LinkedList<>();
@@ -44,13 +44,13 @@ public class MailRoom {
 
         idleRobots = new LinkedList<>();
         for (int i = 0; i < numRobots; i++)
-            idleRobots.add(new Robot(MailRoom.this));  // In mailroom, floor/room is not significant
+            idleRobots.add(new Robot(MailRoom.this, maxRobotCapacity));  // In mailroom, floor/room is not significant
         activeRobots = new ArrayList<>();
         deactivatingRobots = new ArrayList<>();
     }
 
-    void arrive(List<Letter> items) {
-        for (Letter item : items) {
+    void arrive(List<Deliverable> items) {
+        for (Deliverable item : items) {
             waitingForDelivery[item.myFloor()-1].add(item);
             System.out.printf("Item: Time = %d Floor = %d Room = %d Weight = %d\n",
                     item.myArrival(), item.myFloor(), item.myRoom(), 0);
@@ -101,11 +101,13 @@ public class MailRoom {
     }
 
     void loadRobot(int floor, Robot robot) {
-        ListIterator<Letter> iter = waitingForDelivery[floor].listIterator();
+        ListIterator<Deliverable> iter = waitingForDelivery[floor].listIterator();
         while (iter.hasNext()) {  // In timestamp order
-            Letter letter = iter.next();
-            robot.add(letter); //Hand it over
-            iter.remove();
+            Deliverable letter = iter.next();
+            if(robot.getCapacity() >= robot.getUsedCapacity() + letter.myWeight()) {
+                robot.add(letter); //Hand it over
+                iter.remove();
+            }
         }
     }
 
