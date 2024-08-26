@@ -59,7 +59,9 @@ public class Simulation {
             int arrivalTime = random.nextInt(endArrival)+1;
             int floor = random.nextInt(building.NUMFLOORS)+1;
             int room = random.nextInt(building.NUMROOMS)+1;
-            int weight = random.nextInt(maxWeight)+1;
+            int weight = 0;
+            if(maxWeight > 0)weight = random.nextInt(maxWeight)+1;
+            else random.nextInt(maxWeight+1);
             // What am I going to do with all these values?
             addToArrivals(arrivalTime, new Parcel(floor, room, arrivalTime, weight));
         }
