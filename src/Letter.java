@@ -1,8 +1,4 @@
 public class Letter extends Deliverable{
-    private final int floor;
-    private final int room;
-    private final int arrival;
-    private final int weight = 0;
 
     @Override public int compareTo(Deliverable i) {
         int floorDiff = this.floor - i.myFloor();  // Don't really need this as only deliver to one floor at a time
@@ -13,6 +9,7 @@ public class Letter extends Deliverable{
         this.floor = floor;
         this.room = room;
         this.arrival = arrival;
+        this.weight = 0;
     }
 
     public String toString() {

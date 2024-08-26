@@ -1,8 +1,4 @@
 public class Parcel extends Deliverable{
-    private final int floor;
-    private final int room;
-    private final int arrival;
-    private final int weight;
 
     @Override public int compareTo(Deliverable i) {
         int floorDiff = this.floor - i.myFloor();  // Don't really need this as only deliver to one floor at a time
