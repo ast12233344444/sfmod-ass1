@@ -43,7 +43,7 @@ public class Simulation {
         int robotCapacity = Integer.parseInt(properties.getProperty("robot.capacity"));
         timeout = Integer.parseInt(properties.getProperty("timeout"));
         MailRoom.Mode mode = MailRoom.Mode.valueOf(properties.getProperty("mode"));
-
+        Integer random_no = 0;
         Building.initialise(numFloors, numRooms);
         Building building = Building.getBuilding();
         mailroom = new MailRoom(building.NUMFLOORS, numRobots, robotCapacity);
@@ -51,6 +51,8 @@ public class Simulation {
             int arrivalTime = random.nextInt(endArrival)+1;
             int floor = random.nextInt(building.NUMFLOORS)+1;
             int room = random.nextInt(building.NUMROOMS)+1;
+            System.out.println("random "+random_no.toString()+" "+room);
+            random_no++;
             addToArrivals(arrivalTime, new Letter(floor, room, arrivalTime));
         }
         for (int i = 0; i < numParcels; i++) { // Generate parcels
