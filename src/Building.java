@@ -42,8 +42,8 @@ public class Building {
         return singleton;
     }
 
-    boolean isOccupied(int floor, int room) {
-        return occupied[floor][room];
+    boolean isUnoccupied(int floor, int room) {
+        return !occupied[floor][room];
     }
 
     void remove(int floor, int room) {

@@ -45,7 +45,7 @@ public class Robot {
             case RIGHT -> {dfloor = floor;   droom = room+1;}
             default -> throw new IllegalArgumentException("Unexpected value: " + direction);
         }
-        if (!building.isOccupied(dfloor, droom)) { // If destination is occupied, do nothing
+        if (building.isUnoccupied(dfloor, droom)) { // If destination is occupied, do nothing
             building.move(floor, room, direction, id);
             floor = dfloor; room = droom;
             if (floor == 0) {
@@ -76,14 +76,14 @@ public class Robot {
                 }
             } else {
                 // Items to deliver
-                if (floor == deliverables.getFirst().myFloor()) {
+                if (floor == deliverables.get(0).myFloor()) {
                     // On the right floor
-                    if (room == deliverables.getFirst().myRoom()) { //then deliver all relevant items to that room
+                    if (room == deliverables.get(0).myRoom()) { //then deliver all relevant items to that room
                         do {
-                            Deliverable item_to_deliver = deliverables.removeFirst();
+                            Deliverable item_to_deliver = deliverables.remove(0);
                             usedCapacity -= item_to_deliver.myWeight();
                             Simulation.deliver(item_to_deliver);
-                        } while (!deliverables.isEmpty() && room == deliverables.getFirst().myRoom());
+                        } while (!deliverables.isEmpty() && room == deliverables.get(0).myRoom());
                     } else {
                         move(Building.Direction.RIGHT); // move towards next delivery
                     }

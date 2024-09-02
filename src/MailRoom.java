@@ -75,7 +75,7 @@ public class MailRoom {
     void robotDispatch() { // Can dispatch at most one robot; it needs to move out of the way for the next
         System.out.println("Dispatch at time = " + Simulation.now());
         // Need an idle robot and space to dispatch (could be a traffic jam)
-        if (!idleRobots.isEmpty() && !Building.getBuilding().isOccupied(0,0)) {
+        if (!idleRobots.isEmpty() && Building.getBuilding().isUnoccupied(0,0)) {
             int fwei = floorWithEarliestItem();
             if (fwei >= 0) {  // Need an item or items to deliver, starting with earliest
                 Robot robot = idleRobots.remove();
