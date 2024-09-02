@@ -103,9 +103,9 @@ public class MailRoom {
     void loadRobot(int floor, Robot robot) {
         ListIterator<Deliverable> iter = waitingForDelivery[floor].listIterator();
         while (iter.hasNext()) {  // In timestamp order
-            Deliverable letter = iter.next();
-            if(robot.getCapacity() >= robot.getUsedCapacity() + letter.myWeight()) {
-                robot.add(letter); //Hand it over
+            Deliverable deliverable = iter.next();
+            if(robot.getCapacity() >= robot.getUsedCapacity() + deliverable.myWeight()) {
+                robot.add(deliverable); //Hand it over
                 iter.remove();
             }
         }
