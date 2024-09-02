@@ -4,7 +4,7 @@ import static java.lang.String.format;
 
 public class MailRoom {
     public enum Mode {CYCLING, FLOORING}
-    List<Deliverable>[] waitingForDelivery;
+    LinkedList<Deliverable>[] waitingForDelivery;
     private final int numRobots;
 
     Queue<Robot> idleRobots;
@@ -36,7 +36,7 @@ public class MailRoom {
     }
 
     MailRoom(int numFloors, int numRobots, int maxRobotCapacity) {
-        waitingForDelivery = new List[numFloors];
+        waitingForDelivery = new LinkedList[numFloors];
         for (int i = 0; i < numFloors; i++) {
             waitingForDelivery[i] = new LinkedList<>();
         }
