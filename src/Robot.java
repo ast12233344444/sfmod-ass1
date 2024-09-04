@@ -66,11 +66,11 @@ public class Robot {
     }
 
     void transfer(Robot robot) {  // Transfers every item assuming receiving robot has capacity
-        ListIterator<Deliverable> iter = this.deliverables.listIterator();
+        ListIterator<Deliverable> iter = robot.deliverables.listIterator();
         while(iter.hasNext()) {
-            Deliverable letter = iter.next();
-            robot.add(letter);
-            usedCapacity -= letter.myWeight();//Hand it over
+            Deliverable deliverable = iter.next();
+            add(deliverable);
+            robot.usedCapacity -= deliverable.myWeight();//Hand it over
             iter.remove();
         }
     }

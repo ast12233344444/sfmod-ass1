@@ -33,11 +33,9 @@ public class FlooringMailRoom extends MailRoom{
         assert robot.isEmpty() : "robot has returned still carrying at least one item";
         building.remove(floor, room);
         if(room == 0){
-            building.remove(0,0);
             isleftrobotactive = false;
         }
         if(room == building.NUMROOMS+1){
-            building.remove(0, building.NUMROOMS);
             isrightrobotactive = false;
         }
     }
@@ -51,36 +49,44 @@ public class FlooringMailRoom extends MailRoom{
         if(!isleftrobotactive)targetrobot = leftcolrobot;
         else if(!isrightrobotactive)targetrobot = rightcolrobot;
 
-        if(targetrobot != null){
-            int fwei = floorWithEarliestItem();
-            if (fwei >= 0) {  // Need an item or items to deliver, starting with earliest
-                loadRobot(fwei, targetrobot);
+        if(!isleftrobotactive){
+            sendrobot(leftcolrobot);
+        }else leftcolrobot.tick();
 
-                System.out.println("Dispatch at time = " + Simulation.now());
-                System.out.println("Dispatch @ " + Simulation.now() +
-                        " of Robot " + targetrobot.getId() + " with " + targetrobot.numItems() + " item(s)");
+        if(!isrightrobotactive){
+            sendrobot(rightcolrobot);
+        }else rightcolrobot.tick();
+    }
 
-                if(targetrobot.isLeftRobot){
-                    targetrobot.place(0, 0);
-                    isleftrobotactive = true;
-                }
-                else {
-                    targetrobot.place(0, building.NUMROOMS+1);
-                    isrightrobotactive = true;
-                }
+    private void sendrobot(ColumnRobot targetrobot){
+        Building building = Building.getBuilding();
+        int fwei = floorWithEarliestItem();
+        if (fwei >= 0) {  // Need an item or items to deliver, starting with earliest
+            loadRobot(fwei, targetrobot);
+
+            System.out.println("Dispatch at time = " + Simulation.now());
+            System.out.println("Dispatch @ " + Simulation.now() +
+                    " of Robot " + targetrobot.getId() + " with " + targetrobot.numItems() + " item(s)");
+
+            if(targetrobot.isLeftRobot){
+                targetrobot.place(0, 0);
+                isleftrobotactive = true;
+            }
+            else {
+                targetrobot.place(0, building.NUMROOMS+1);
+                isrightrobotactive = true;
             }
         }
     }
 
     @Override
     public void tick() { // Simulation time unit
-        if(isleftrobotactive)leftcolrobot.tick();
-        if(isrightrobotactive)rightcolrobot.tick();
+
         for (Robot activeRobot : activeRobots) {
             System.out.printf("About to tick: " + activeRobot.toString() + "\n");
             activeRobot.tick();
         }
+
         robotDispatch();  // dispatch a robot if conditions are met
-        robotDispatch();  // can dispatch two robots possibly
     }
 }

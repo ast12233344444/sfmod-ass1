@@ -9,12 +9,15 @@ public class RowRobot extends Robot{
     @Override
     void tick(){//TODO execute the floor robots before column robots robots
         Building building = Building.getBuilding();
+        boolean isempty_begin = false;
         if (deliverables.isEmpty()) {
+            isempty_begin = true;
             if(building.isOccupied(floor, 0)
                     && (RobotState != state.MOVING_RIGHT_ROW)&&
                     ((((FlooringMailRoom)mailroom).leftcolrobot.RobotState == state.WAITING))){
                 if(room == 1){
                     RobotState = state.WAITING;
+                    transfer(((FlooringMailRoom)mailroom).leftcolrobot);
                 }else{
                     RobotState = state.MOVING_LEFT_ROW;
                     move(Building.Direction.LEFT);
@@ -24,6 +27,7 @@ public class RowRobot extends Robot{
                     && (((FlooringMailRoom)mailroom).rightcolrobot.RobotState == state.WAITING)){
                 if(room == building.NUMROOMS){
                     RobotState = state.WAITING;
+                    transfer(((FlooringMailRoom)mailroom).rightcolrobot);
                 }else{
                     RobotState = state.MOVING_RIGHT_ROW;
                     move(Building.Direction.RIGHT);
@@ -40,7 +44,7 @@ public class RowRobot extends Robot{
             RobotState = state.MOVING_GENERAL;
         }
 
-        if(!deliverables.isEmpty()){
+        if(!isempty_begin){
             if (room == deliverables.getFirst().myRoom()) {
                 do {
                     Deliverable item_to_deliver = deliverables.removeFirst();
