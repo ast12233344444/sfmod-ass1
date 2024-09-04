@@ -1,5 +1,6 @@
 // Check that maxweight (of parcel) is less than or equal to the maxcapacity of robot.
 
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -7,7 +8,7 @@ public class Simulation {
     private static final Map<Integer, List<Deliverable>> waitingToArrive = new HashMap<>();
     private static int time = 0;
     public final int endArrival;
-    final public MailRoom mailroom;
+    public MailRoom mailroom;
     private static int timeout;
 
     private static int deliveredCount = 0;
@@ -46,12 +47,13 @@ public class Simulation {
         Integer random_no = 0;
         Building.initialise(numFloors, numRooms);
         Building building = Building.getBuilding();
-        mailroom = new MailRoom(building.NUMFLOORS, numRobots, robotCapacity);
+        if(mode == MailRoom.Mode.CYCLING) mailroom = new CyclingMailRoom(building.NUMFLOORS, numRobots, robotCapacity);
+        else if(mode == MailRoom.Mode.FLOORING) mailroom = new FlooringMailRoom(building.NUMFLOORS, robotCapacity);//TODO finish this
         for (int i = 0; i < numLetters; i++) { //Generate letters
             int arrivalTime = random.nextInt(endArrival)+1;
             int floor = random.nextInt(building.NUMFLOORS)+1;
             int room = random.nextInt(building.NUMROOMS)+1;
-            System.out.println("random "+random_no.toString()+" "+room);
+            //System.out.println("random "+random_no.toString()+" "+room);
             random_no++;
             addToArrivals(arrivalTime, new Letter(floor, room, arrivalTime));
         }

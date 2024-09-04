@@ -4,14 +4,23 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class Robot {
-    private static int count = 1;
-    private static int capacity;
+    protected static int count = 1;
+    protected static int capacity;
     final private String id;
-    private int floor;
-    private int room;
-    private int usedCapacity;
-    final private MailRoom mailroom;
-    final private List<Deliverable> deliverables = new ArrayList<>();
+    protected int floor;
+    protected int room;
+    protected int usedCapacity;
+    final protected MailRoom mailroom;
+    final protected List<Deliverable> deliverables = new ArrayList<>();
+    public state RobotState;
+
+
+    public enum state{
+        MOVING_GENERAL,
+        WAITING,
+        MOVING_RIGHT_ROW,
+        MOVING_LEFT_ROW
+    }
 
     public String toString() {
         return "Id: " + id + " Floor: " + floor + ", Room: " + room + ", #items: " + numItems() + ", Load: " + 0 ;
@@ -22,6 +31,7 @@ public class Robot {
         this.mailroom = mailroom;
         capacity = given_capacity;
         usedCapacity = 0;
+        RobotState = state.MOVING_GENERAL;
     }
 
     int getFloor() { return floor; }
@@ -35,7 +45,7 @@ public class Robot {
         this.room = room;
     }
 
-    private void move(Building.Direction direction) {
+    protected void move(Building.Direction direction) {
         Building building = Building.getBuilding();
         int dfloor, droom;
         switch (direction) {
@@ -56,42 +66,16 @@ public class Robot {
     }
 
     void transfer(Robot robot) {  // Transfers every item assuming receiving robot has capacity
-        ListIterator<Deliverable> iter = robot.deliverables.listIterator();
+        ListIterator<Deliverable> iter = this.deliverables.listIterator();
         while(iter.hasNext()) {
             Deliverable letter = iter.next();
-            this.add(letter);
+            robot.add(letter);
             usedCapacity -= letter.myWeight();//Hand it over
             iter.remove();
         }
     }
 
-    void tick() {
-            Building building = Building.getBuilding();
-            if (deliverables.isEmpty()) {
-                // Return to MailRoom
-                if (room == building.NUMROOMS + 1) { // in right end column
-                    move(Building.Direction.DOWN);  //move towards mailroom
-                } else {
-                    move(Building.Direction.RIGHT); // move towards right end column
-                }
-            } else {
-                // Items to deliver
-                if (floor == deliverables.getFirst().myFloor()) {
-                    // On the right floor
-                    if (room == deliverables.getFirst().myRoom()) { //then deliver all relevant items to that room
-                        do {
-                            Deliverable item_to_deliver = deliverables.removeFirst();
-                            usedCapacity -= item_to_deliver.myWeight();
-                            Simulation.deliver(item_to_deliver);
-                        } while (!deliverables.isEmpty() && room == deliverables.getFirst().myRoom());
-                    } else {
-                        move(Building.Direction.RIGHT); // move towards next delivery
-                    }
-                } else {
-                    move(Building.Direction.UP); // move towards floor
-                }
-            }
-    }
+    void tick(){}
 
     public String getId() {
         return id;
@@ -110,8 +94,11 @@ public class Robot {
         deliverables.add(item);
     }
 
-    void sort() {
+    void sort(){
         Collections.sort(deliverables);
     }
 
+    void reverse(){
+        Collections.reverse(deliverables);
+    }
 }
