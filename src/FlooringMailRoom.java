@@ -74,13 +74,13 @@ public class FlooringMailRoom extends MailRoom{
 
     @Override
     public void tick() { // Simulation time unit
-        for (Robot activeRobot : activeRobots) {
-            System.out.printf("About to tick: " + activeRobot.toString() + "\n"); activeRobot.tick();
-        }
-        if(isrightrobotactive)rightcolrobot.tick();
         if(isleftrobotactive)leftcolrobot.tick();
+        if(isrightrobotactive)rightcolrobot.tick();
+        for (Robot activeRobot : activeRobots) {
+            System.out.printf("About to tick: " + activeRobot.toString() + "\n");
+            activeRobot.tick();
+        }
         robotDispatch();  // dispatch a robot if conditions are met
         robotDispatch();  // can dispatch two robots possibly
-
     }
 }

@@ -35,8 +35,7 @@ public class RowRobot extends Robot{
             if(room == 1){
                 sort();
             }if(room == building.NUMROOMS){
-                sort();
-                reverse();
+                reversesort();
             }
             RobotState = state.MOVING_GENERAL;
         }

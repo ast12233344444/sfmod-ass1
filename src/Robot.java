@@ -23,7 +23,7 @@ public class Robot {
     }
 
     public String toString() {
-        return "Id: " + id + " Floor: " + floor + ", Room: " + room + ", #items: " + numItems() + ", Load: " + 0 ;
+        return "Id: " + id + " Floor: " + floor + ", Room: " + room + ", #items: " + numItems() + ", Load: " + usedCapacity ;
     }
 
     Robot(MailRoom mailroom, int given_capacity) {
@@ -98,7 +98,7 @@ public class Robot {
         Collections.sort(deliverables);
     }
 
-    void reverse(){
-        Collections.reverse(deliverables);
+    void reversesort(){
+        Collections.sort(deliverables, Collections.reverseOrder());
     }
 }
