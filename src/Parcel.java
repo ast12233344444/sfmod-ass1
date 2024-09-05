@@ -1,28 +1,21 @@
 public class Parcel extends Deliverable{
-    private final int floor;
-    private final int room;
-    private final int arrival;
     private final int weight;
 
     @Override public int compareTo(Deliverable i) {
-        int floorDiff = this.floor - i.myFloor();  // Don't really need this as only deliver to one floor at a time
-        return (floorDiff == 0) ? this.room - i.myRoom() : floorDiff;
+        int floorDiff = this.myFloor() - i.myFloor();  // Don't really need this as only deliver to one floor at a time
+        return (floorDiff == 0) ? this.myRoom() - i.myRoom() : floorDiff;
     }
 
     Parcel(int floor, int room, int arrival, int weight) {
-        this.floor = floor;
-        this.room = room;
-        this.arrival = arrival;
+        super(floor, room, arrival);
         this.weight = weight;
     }
 
     public String toString() {
-        return "Floor: " + floor + ", Room: " + room + ", Arrival: " + arrival + ", Weight: " + weight;
+        return "Floor: " + myFloor() + ", Room: " + myRoom() + ", Arrival: " + myArrival() + ", Weight: " + myWeight();
     }
 
-    @Override int myFloor() { return this.floor; }
-    @Override int myRoom() { return room; }
-    @Override int myArrival() { return arrival; }
-
-    @Override int myWeight() {return weight;}
+    @Override public int myWeight() {
+        return weight;
+    }
 }
