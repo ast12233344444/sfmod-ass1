@@ -3,7 +3,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
-public class Robot {
+public abstract class Robot {
     protected static int count = 1;
     protected static int capacity;
     final private String id;
@@ -75,7 +75,7 @@ public class Robot {
         }
     }
 
-    void tick(){}
+    public abstract void tick();
 
     public String getId() {
         return id;

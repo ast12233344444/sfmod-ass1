@@ -4,7 +4,7 @@ public class CyclingRobot extends Robot {
         super(mr, given_capacity);
     }
     @Override
-    void tick() {
+    public void tick() {
         Building building = Building.getBuilding();
         if (deliverables.isEmpty()) {
             // Return to MailRoom

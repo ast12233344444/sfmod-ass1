@@ -9,7 +9,7 @@ public class ColumnRobot extends Robot{
     }
 
     @Override
-    void tick(){
+    public void tick(){
         Building building = Building.getBuilding();
         if (deliverables.isEmpty()) {
             move(Building.Direction.DOWN);//move towards mailroom

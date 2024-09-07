@@ -7,7 +7,7 @@ public class RowRobot extends Robot{
     }
 
     @Override
-    void tick(){
+    public void tick(){
         Building building = Building.getBuilding();
         boolean isempty_begin = false;
         if (deliverables.isEmpty()) {
