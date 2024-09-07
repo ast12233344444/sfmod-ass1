@@ -7,7 +7,7 @@ public class RowRobot extends Robot{
     }
 
     @Override
-    void tick(){//TODO execute the floor robots before column robots robots
+    void tick(){
         Building building = Building.getBuilding();
         boolean isempty_begin = false;
         if (deliverables.isEmpty()) {

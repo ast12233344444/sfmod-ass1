@@ -2,7 +2,7 @@ import java.util.*;
 
 import static java.lang.String.format;
 
-public class MailRoom {
+public abstract class MailRoom {
     public enum Mode {CYCLING, FLOORING}
     protected List<Deliverable>[] waitingForDelivery;
     protected int numRobots;
@@ -34,14 +34,14 @@ public class MailRoom {
         return floor;
     }
 
-    MailRoom(int numFloors) {
+    protected MailRoom(int numFloors) {
         waitingForDelivery = new List[numFloors];
         for (int i = 0; i < numFloors; i++) {
             waitingForDelivery[i] = new LinkedList<>();
         }
     }
 
-    void arrive(List<Deliverable> items) {
+    public void arrive(List<Deliverable> items) {
         for (Deliverable item : items) {
             waitingForDelivery[item.myFloor()-1].add(item);
             System.out.printf("Item: Time = %d Floor = %d Room = %d Weight = %d\n",
@@ -49,13 +49,13 @@ public class MailRoom {
         }
     }
 
-    public void tick() { }
+    public abstract void tick();
 
-    protected void robotDispatch() {}
+    protected abstract void robotDispatch();
 
-    public void robotReturn(Robot robot) {}
+    public abstract void robotReturn(Robot robot);
 
-    void loadRobot(int floor, Robot robot) {
+    protected void loadRobot(int floor, Robot robot) {
         ListIterator<Deliverable> iter = waitingForDelivery[floor].listIterator();
         while (iter.hasNext()) {  // In timestamp order
             Deliverable letter = iter.next();
