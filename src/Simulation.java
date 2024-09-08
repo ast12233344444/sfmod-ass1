@@ -4,6 +4,7 @@ import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+// [Mon 15:15] Team 03
 public class Simulation {
     private static final Map<Integer, List<Deliverable>> waitingToArrive = new HashMap<>();
     private static int time = 0;

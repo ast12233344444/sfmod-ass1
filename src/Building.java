@@ -1,6 +1,5 @@
 import static java.lang.String.format;
 
-// [Mon 15:15] Team 03
 public class Building {
     private static boolean initialised = false;
     private static Building singleton = null;
