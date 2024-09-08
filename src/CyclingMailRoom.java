@@ -4,8 +4,8 @@ import static java.lang.String.format;
 
 public class CyclingMailRoom extends MailRoom{
 
-    protected Queue<Robot> idleRobots;
-    protected List<Robot> deactivatingRobots; // Don't treat a robot as both active and idle by swapping directly
+    private Queue<Robot> idleRobots;
+    private List<Robot> deactivatingRobots; // Don't treat a robot as both active and idle by swapping directly
 
     public CyclingMailRoom(int numFloors, int numRobots, int maxRobotCapacity){
             super(numFloors);
