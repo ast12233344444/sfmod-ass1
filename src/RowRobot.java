@@ -1,8 +1,8 @@
 public class RowRobot extends Robot{
 
 
-    public RowRobot(MailRoom mr, int given_capacity){
-        super(mr, given_capacity);
+    public RowRobot(MailRoom mr, int givenCapacity){
+        super(mr, givenCapacity);
         RobotState = state.WAITING;
     }
 
@@ -14,20 +14,20 @@ public class RowRobot extends Robot{
             isempty_begin = true;
             if(building.isOccupied(floor, 0)
                     && (RobotState != state.MOVING_RIGHT_ROW)&&
-                    ((((FlooringMailRoom)mailroom).leftcolrobot.RobotState == state.WAITING))){
+                    ((((FlooringMailRoom)mailroom).leftColRobot.RobotState == state.WAITING))){
                 if(room == 1){
                     RobotState = state.WAITING;
-                    transfer(((FlooringMailRoom)mailroom).leftcolrobot);
+                    transfer(((FlooringMailRoom)mailroom).leftColRobot);
                 }else{
                     RobotState = state.MOVING_LEFT_ROW;
                     move(Building.Direction.LEFT);
                 }
             }else if(building.isOccupied(floor, building.NUMROOMS+1)
                     && (RobotState != state.MOVING_LEFT_ROW)
-                    && (((FlooringMailRoom)mailroom).rightcolrobot.RobotState == state.WAITING)){
+                    && (((FlooringMailRoom)mailroom).rightColRobot.RobotState == state.WAITING)){
                 if(room == building.NUMROOMS){
                     RobotState = state.WAITING;
-                    transfer(((FlooringMailRoom)mailroom).rightcolrobot);
+                    transfer(((FlooringMailRoom)mailroom).rightColRobot);
                 }else{
                     RobotState = state.MOVING_RIGHT_ROW;
                     move(Building.Direction.RIGHT);
@@ -39,7 +39,7 @@ public class RowRobot extends Robot{
             if(room == 1){
                 sort();
             }if(room == building.NUMROOMS){
-                reversesort();
+                reverseSort();
             }
             RobotState = state.MOVING_GENERAL;
         }

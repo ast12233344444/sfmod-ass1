@@ -1,7 +1,7 @@
 public class CyclingRobot extends Robot {
 
-    public CyclingRobot(MailRoom mr, int given_capacity){
-        super(mr, given_capacity);
+    public CyclingRobot(MailRoom mr, int givenCapacity){
+        super(mr, givenCapacity);
     }
     @Override
     public void tick() {
