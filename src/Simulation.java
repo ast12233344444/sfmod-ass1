@@ -71,7 +71,7 @@ public class Simulation {
 
     public static int now() { return time; }
 
-    void step() {
+    private void step() {
         // External events
         if (waitingToArrive.containsKey(time))
             mailroom.arrive(waitingToArrive.get(time));
