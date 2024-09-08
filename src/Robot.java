@@ -26,17 +26,17 @@ public abstract class Robot {
         return "Id: " + id + " Floor: " + floor + ", Room: " + room + ", #items: " + numItems() + ", Load: " + usedCapacity ;
     }
 
-    Robot(MailRoom mailroom, int given_capacity) {
+    Robot(MailRoom mailroom, int givenCapacity) {
         this.id = "R" + count++;
         this.mailroom = mailroom;
-        capacity = given_capacity;
+        capacity = givenCapacity;
         usedCapacity = 0;
         RobotState = state.MOVING_GENERAL;
     }
 
-    int getFloor() { return floor; }
-    int getRoom() { return room; }
-    boolean isEmpty() { return deliverables.isEmpty(); }
+    public int getFloor() { return floor; }
+    public int getRoom() { return room; }
+    public boolean isEmpty() { return deliverables.isEmpty(); }
 
     public void place(int floor, int room) {
         Building building = Building.getBuilding();
@@ -94,11 +94,11 @@ public abstract class Robot {
         deliverables.add(item);
     }
 
-    void sort(){
+    public void sort(){
         Collections.sort(deliverables);
     }
 
-    void reversesort(){
+    public void reverseSort(){
         Collections.sort(deliverables, Collections.reverseOrder());
     }
 }

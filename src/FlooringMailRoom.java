@@ -1,27 +1,26 @@
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 import static java.lang.String.format;
 
 public class FlooringMailRoom extends MailRoom{
-    ColumnRobot leftcolrobot;
-    ColumnRobot rightcolrobot;
-    boolean isleftrobotactive;
-    boolean isrightrobotactive;
+    ColumnRobot leftColRobot;
+    ColumnRobot rightColRobot;
+    private boolean isLeftRobotActive;
+    private boolean isRightRobotActive;
     public FlooringMailRoom(int numFloors, int maxRobotCapacity){
         super(numFloors);
         activeRobots = new ArrayList<>();
 
         this.numRobots = numFloors+2;
-        leftcolrobot = new ColumnRobot(this, maxRobotCapacity, true);
-        rightcolrobot = new ColumnRobot(this, maxRobotCapacity, false);
+        leftColRobot = new ColumnRobot(this, maxRobotCapacity, true);
+        rightColRobot = new ColumnRobot(this, maxRobotCapacity, false);
         for(int i =0; i < numFloors; i++){
             Robot r =  new RowRobot(this, maxRobotCapacity);
             r.place(i+1, 1);
             activeRobots.add(r);
         }
-        isleftrobotactive = false;
-        isrightrobotactive = false;
+        isLeftRobotActive = false;
+        isRightRobotActive = false;
     }
 
     @Override
@@ -33,48 +32,46 @@ public class FlooringMailRoom extends MailRoom{
         assert robot.isEmpty() : "robot has returned still carrying at least one item";
         building.remove(floor, room);
         if(room == 0){
-            isleftrobotactive = false;
+            isLeftRobotActive = false;
         }
         if(room == building.NUMROOMS+1){
-            isrightrobotactive = false;
+            isRightRobotActive = false;
         }
     }
 
     @Override
-    protected void robotDispatch() { // Can dispatch at most one robot; it needs to move out of the way for the next
-        Building building = Building.getBuilding();
-        // Need an idle robot and space to dispatch (could be a traffic jam)
+    protected void robotDispatch() {
 
-        ColumnRobot targetrobot =  null;
-        if(!isleftrobotactive)targetrobot = leftcolrobot;
-        else if(!isrightrobotactive)targetrobot = rightcolrobot;
+        ColumnRobot targetRobot =  null;
+        if(!isLeftRobotActive) targetRobot = leftColRobot;
+        else if(!isRightRobotActive) targetRobot = rightColRobot;
 
-        if(!isleftrobotactive){
-            sendrobot(leftcolrobot);
-        }else leftcolrobot.tick();
+        if(!isLeftRobotActive){
+            sendRobot(leftColRobot);
+        }else leftColRobot.tick();
 
-        if(!isrightrobotactive){
-            sendrobot(rightcolrobot);
-        }else rightcolrobot.tick();
+        if(!isRightRobotActive){
+            sendRobot(rightColRobot);
+        }else rightColRobot.tick();
     }
 
-    private void sendrobot(ColumnRobot targetrobot){
+    private void sendRobot(ColumnRobot targetRobot){
         Building building = Building.getBuilding();
         int fwei = floorWithEarliestItem();
         if (fwei >= 0) {  // Need an item or items to deliver, starting with earliest
-            loadRobot(fwei, targetrobot);
+            loadRobot(fwei, targetRobot);
 
             System.out.println("Dispatch at time = " + Simulation.now());
             System.out.println("Dispatch @ " + Simulation.now() +
-                    " of Robot " + targetrobot.getId() + " with " + targetrobot.numItems() + " item(s)");
+                    " of Robot " + targetRobot.getId() + " with " + targetRobot.numItems() + " item(s)");
 
-            if(targetrobot.isLeftRobot){
-                targetrobot.place(0, 0);
-                isleftrobotactive = true;
+            if(targetRobot.isLeftRobot){
+                targetRobot.place(0, 0);
+                isLeftRobotActive = true;
             }
             else {
-                targetrobot.place(0, building.NUMROOMS+1);
-                isrightrobotactive = true;
+                targetRobot.place(0, building.NUMROOMS+1);
+                isRightRobotActive = true;
             }
         }
     }

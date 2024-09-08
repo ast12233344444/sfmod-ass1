@@ -1,7 +1,5 @@
 import java.util.*;
 
-import static java.lang.String.format;
-
 public abstract class MailRoom {
     public enum Mode {CYCLING, FLOORING}
     protected List<Deliverable>[] waitingForDelivery;
