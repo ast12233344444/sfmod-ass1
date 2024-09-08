@@ -1,3 +1,4 @@
+// [Mon 15:15] Team 03
 public class CyclingRobot extends Robot {
 
     public CyclingRobot(MailRoom mr, int givenCapacity){

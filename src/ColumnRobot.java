@@ -1,3 +1,4 @@
+// [Mon 15:15] Team 03
 public class ColumnRobot extends Robot{
 
     boolean isLeftRobot;

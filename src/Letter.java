@@ -1,3 +1,4 @@
+// [Mon 15:15] Team 03
 public class Letter extends Deliverable{
 
     @Override public int compareTo(Deliverable i) {

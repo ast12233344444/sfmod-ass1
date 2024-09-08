@@ -1,6 +1,5 @@
+// [Mon 15:15] Team 03
 public class RowRobot extends Robot{
-
-
     public RowRobot(MailRoom mr, int givenCapacity){
         super(mr, givenCapacity);
         RobotState = state.WAITING;

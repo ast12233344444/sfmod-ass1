@@ -1,7 +1,7 @@
 import java.util.ArrayList;
-
 import static java.lang.String.format;
 
+// [Mon 15:15] Team 03
 public class FlooringMailRoom extends MailRoom{
     ColumnRobot leftColRobot;
     ColumnRobot rightColRobot;

@@ -1,3 +1,4 @@
+// [Mon 15:15] Team 03
 public class Parcel extends Deliverable{
     private final int weight;
 

@@ -1,5 +1,6 @@
 import java.util.*;
 
+// [Mon 15:15] Team 03
 public abstract class MailRoom {
     public enum Mode {CYCLING, FLOORING}
     protected List<Deliverable>[] waitingForDelivery;

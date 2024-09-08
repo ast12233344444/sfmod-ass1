@@ -3,6 +3,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
+// [Mon 15:15] Team 03
 public abstract class Robot {
     protected static int count = 1;
     protected static int capacity;
